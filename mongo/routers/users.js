@@ -36,5 +36,19 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/", async (req, res) => {
+    if (!req.query.email) return res.status(400).send("User ID is required.");
+
+    try {
+        let user = await User.findOne({ email: req.body.email });
+        if (!user) return res.status(404).send("User not found.");
+
+        res.send(_.pick(user, ['_id', 'name', 'username', 'email', 'weight', 'progress']));
+    } catch (error) {
+        res.status(500).send("An error occurred while fetching the user.");
+        console.log(error);
+    }
+});
+
 
 module.exports = router;

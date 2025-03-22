@@ -1,4 +1,4 @@
-
+const config = require('config');
 const express = require("express");
 const mongoose = require('mongoose');
 const cors = require("cors");
@@ -10,6 +10,11 @@ const auth = require('./mongo/routers/auth');
 
 const app = express();
 
+if (!config.get('jwtPrivateKey')) {
+    console.error('FATAL ERROR: jwtPrivateKey is not defined.');
+    process.exit(1);
+}
+
 mongoose.connect('mongodb://localhost:27017/Social') // need to switch to come from a config file
     .then(() => {
         console.log('Connected to MongoDB');
@@ -20,7 +25,7 @@ app.use(express.json());
 
 app.use(cors());
 app.use('/api/users', users);
-//app.use('/api/auth', auth);
+app.use('/api/auth', auth);
 
 const port = process.env.PORT || 3001;
 
