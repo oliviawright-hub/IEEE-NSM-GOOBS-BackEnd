@@ -10,15 +10,15 @@ app.post("/registeruser", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  let user = await User.findOne({ email: req.body.email })
-  if (user) return res.status(400).send('User already registered.');
+  let user = await User.findOne({ email: req.body.email });
+  if (user) return res.status(400).send("User already registered.");
 
   user = new User({
-      name: req.body.name,
-      username: req.body.username,
-      password: req.body.password,
-      email: req.body.email,
-      weight: req.body.weight,
+    name: req.body.name,
+    username: req.body.username,
+    password: req.body.password,
+    email: req.body.email,
+    weight: req.body.weight,
   });
 
   await user.save();
@@ -27,12 +27,12 @@ app.post("/registeruser", async (req, res) => {
 });
 
 app.get("/exercises", async (req, res) => {
-  const dataPromise = exercisesAPI.getResponse();
+  const { level, equipment, primaryMuscles } = req.query;
   dataPromise
     .then((response) => {
       const data = response.data;
       const allExercises = exercisesAPI.parseResponse(data);
-      const filteredExercises = exercisesAPI.getExercises(allExercises, req.body.level, req.body.equipment, req.body.primaryMuscles);
+      const filteredExercises = exercisesAPI.getExercises(allExercises, level, equipment, primaryMuscles);
       res.send(filteredExercises);
     })
     .catch((error) => console.error("Error fetching data:", error));
