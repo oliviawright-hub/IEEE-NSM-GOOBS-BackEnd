@@ -53,16 +53,6 @@ function getExercises(allExercises, level, equipment, primaryMuscles) {
   return matchingExercises;
 }
 
-app.get("/exercises", async (req, res) => {
-  const data = await getResponse();
-  const exercises = parseResponse(data);
-  res.json(exercises);
-});
-
-app.listen(3000, () => {
-console.log(`Server Running!`);
-});
-
 module.exports = {
   getResponse,
   parseResponse,
