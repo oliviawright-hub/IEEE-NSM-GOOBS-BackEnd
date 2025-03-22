@@ -12,9 +12,9 @@ router.post("/", async (req, res) => {
     let post = await Post.findOne({ userName: req.body.userName });
     if (post) return res.status(400).send("Post already exists");
 
-    post = new Post(_.pick(req.body, ["userName", "image", "description", "createdAt", "isPosted"]));
+    post = new Post(_.pick(req.body, ["userName", "image", "description", "createdAt", "likes", "isPosted"]));
     await post.save();
-    res.send(_.pick(post, ["_id", "userName", "description", "createdAt", "isPosted"]));
+    res.send(_.pick(post, ["_id", "userName", "description", "createdAt", "likes", "isPosted"]));
 });
 
 module.exports = router;
