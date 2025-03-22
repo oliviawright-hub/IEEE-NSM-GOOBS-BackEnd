@@ -6,7 +6,6 @@ function normalizeDateToISO(date) {
     return dateObj.toISOString().split('T')[0]; 
 }
 
-
 async function addProgress(id, progressData){
     const user = await User.findById(id);
     if(!user){
