@@ -1,15 +1,14 @@
+
 const express = require("express");
-const { User, validate } = require('./mongo/user');
 const mongoose = require('mongoose');
-const exercisesAPI = require("./src/workout_api.js");
 const cors = require("cors");
 
+const exercisesAPI = require("./src/workout_api.js");
+
+const users = require('./mongo/routers/users');
+const auth = require('./mongo/routers/auth');
+
 const app = express();
-
-app.use(express.json());
-app.use(cors());
-
-const port = process.env.PORT || 3001;
 
 mongoose.connect('mongodb://localhost:27017/Social') // need to switch to come from a config file
     .then(() => {
@@ -17,26 +16,13 @@ mongoose.connect('mongodb://localhost:27017/Social') // need to switch to come f
     }) // better to use debug module for this
     .catch(err => console.error('Could not connect to MongoDB...', err))
 
+app.use(express.json());
 
-app.post("/registeruser", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+app.use(cors());
+app.use('/api/users', users);
+//app.use('/api/auth', auth);
 
-  let user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send("User already registered.");
-
-  user = new User({
-    name: req.body.name,
-    username: req.body.username,
-    password: req.body.password,
-    email: req.body.email,
-    weight: req.body.weight,
-  });
-
-  await user.save();
-
-  res.send(user);
-});
+const port = process.env.PORT || 3001;
 
 app.get("/exercises", async (req, res) => {
   const { level, equipment, primaryMuscles } = req.query;
