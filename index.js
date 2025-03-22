@@ -32,6 +32,7 @@ app.get("/exercises", async (req, res) => {
   dataPromise
     .then((response) => {
       const data = response.data;
+      console.log(response.data);
       const allExercises = exercisesAPI.parseResponse(data);
       const filteredExercises = exercisesAPI.getExercises(allExercises, level, equipment, primaryMuscles);
       res.send(filteredExercises);

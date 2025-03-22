@@ -19,8 +19,7 @@ function randomInt(min, max) {
 
 // returns response from API
 function getResponse() {
-  const url =
-    "https://lite.datasette.io/?json=https://github.com/yuhonas/free-exercise-db/blob/main/dist/exercises.json#/data/exercises?_facet_array=primaryMuscles&_facet=force&_facet=level&_facet=equipment";
+  const url = "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json";
   return axios.get(url);
 }
 
@@ -49,7 +48,7 @@ function getExercises(allExercises, level, equipment, primaryMuscles) {
 // createWorkoutPlan expects the array of excercises, level, equipment, primaryMuscles and returns an array of excercises
 function createWorkoutPlan(allExercises, level, equipment, primaryMuscles) {
   let filteredExercises = getExercises(allExercises, level, equipment, primaryMuscles);
-  const workoutSize = Math.min(filteredExercises.length, randomInt(8, 11)); 
+  const workoutSize = Math.min(filteredExercises.length, randomInt(8, 11));
   const selectedExercises = [];
   while (selectedExercises.length < workoutSize) {
     const index = randomInt(0, filteredExercises.length);
