@@ -79,8 +79,6 @@ function validateUser(user) {
     return schema.validate(user, { abortEarly: false });
 }
 
-async 
-
 exports.User = User;
 exports.validate = validateUser;
 
