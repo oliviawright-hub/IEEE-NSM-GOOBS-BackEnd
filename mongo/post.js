@@ -37,14 +37,14 @@ const Post = mongoose.model('Post', postSchema);
 
 function validatePost(post) {
     const schema = Joi.object({
-      userId: Joi.string().required().regex(/^[0-9a-fA-F]{24}$/),
+      userId: Joi.ObjectId().required().regex(/^[0-9a-fA-F]{24}$/),
       userName: Joi.string().required(),
       image: Joi.string().uri().allow('', null),
       description: Joi.string().required(),
       createdAt: Joi.date().default(() => new Date(), 'Posted at'),
       likes: Joi.number().integer().min(0).default(0),
       comments: Joi.array().items(Joi.object({
-        userId: Joi.string().required().regex(/^[0-9a-fA-F]{24}$/),
+        userId: Joi.ObjectId().required().regex(/^[0-9a-fA-F]{24}$/),
         userName: Joi.string().required(),
         description: Joi.string().required(),
         createdAt: Joi.date().default(() => new Date(), 'Posted at'),
