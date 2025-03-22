@@ -6,14 +6,16 @@ const bcrypt = require('bcrypt');
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-    const { error } = validatePost(req.body);
+    req.body.userId = req.user._id;
+
+    const { error } = validateComment(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    let post = await Post.findOne({ userName: req.body.userName });
-    if (post) return res.status(400).send("Post already exists");
+    let comment = await Comment.findOne({userId: req.user._id, description: req.body.description });
+    if (comment) return res.status(400).send("Comment already exists");
 
-    post = new Post(_.pick(req.body, ["userName", "description", "createdAt", "likes", "isPosted"]));
-    await post.save();
+    comment = new Comment(_.pick(req.body, ["userId", "userName", "description", "createdAt", "likes", "isPosted"]));
+    await comment.save();
     res.send(_.pick(post, ["_id", "userName", "description", "createdAt", "likes", "isPosted"]));
 });
 
