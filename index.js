@@ -28,6 +28,7 @@ app.post("/registeruser", async (req, res) => {
 
 app.get("/exercises", async (req, res) => {
   const { level, equipment, primaryMuscles } = req.query;
+  const dataPromise = exercisesAPI.getResponse();
   dataPromise
     .then((response) => {
       const data = response.data;
