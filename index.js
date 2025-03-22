@@ -18,6 +18,20 @@ app.get("/exercises", async (req, res) => {
     .catch((error) => console.error("Error fetching data:", error));
 });
 
+app.get("/workout", async (req, res) => {
+  try {
+    const { level, equipment, primaryMuscles } = req.query;
+    let primaryMusclesArray = primaryMuscles ? primaryMuscles.split(",") : undefined;
+
+    const data = await getResponse();
+    const exercises = parseResponse(data);
+    const workoutPlan = createWorkoutPlan(exercises, level, equipment, primaryMusclesArray);
+    res.json(workoutPlan);
+  } catch (error) {
+    res.status(500).send("Failed to create workout plan.");
+  }
+});
+
 const server = app.listen(port, () => {
   console.log(`Server Running!`);
 });
