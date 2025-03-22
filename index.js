@@ -7,6 +7,8 @@ const exercisesAPI = require("./src/workout_api.js");
 
 const users = require('./mongo/routers/users');
 const auth = require('./mongo/routers/auth');
+const post = require('./mongo/routers/posts');
+const comment = require('./mongo/routers/comments');
 
 const app = express();
 
@@ -26,6 +28,8 @@ app.use(express.json());
 app.use(cors());
 app.use('/api/users', users);
 app.use('/api/auth', auth);
+app.use('/api/post', post);
+app.use('/api/comment', comment);
 
 const port = process.env.PORT || 3001;
 

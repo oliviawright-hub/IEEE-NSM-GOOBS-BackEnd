@@ -44,3 +44,4 @@ function validateComment(comment) {
 
 exports.Comment = Comment;
 exports.validate = validateComment;
+exports.commentSchema = commentSchema;
