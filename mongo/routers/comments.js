@@ -1,22 +1,22 @@
-const { Comment, validatePost } = require('../comment');
+const { Comment, validateComment } = require('../comment');
 const mongoose = require('mongoose');
 const express = require('express');
 const _ = require('lodash');
-const bcrypt = require('bcrypt');
 const router = express.Router();
+const auth = require('../auth'); // Adjust the path as needed
 
-router.post("/", async (req, res) => {
-    req.body.userId = req.user._id;
+router.post("/", auth, async (req, res) => {
+    if (!req.user) return res.status(401).send("Unauthorized");
 
     const { error } = validateComment(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    let comment = await Comment.findOne({userId: req.user._id, description: req.body.description });
+    let comment = await Comment.findOne({ username: req.body.username, description: req.body.description });
     if (comment) return res.status(400).send("Comment already exists");
 
-    comment = new Comment(_.pick(req.body, ["userId", "userName", "description", "createdAt", "likes", "isPosted"]));
+    comment = new Comment(_.pick(req.body, ["username", "image", "description", "createdAt", "isPosted"]));
     await comment.save();
-    res.send(_.pick(post, ["_id", "userName", "description", "createdAt", "likes", "isPosted"]));
+    res.send(_.pick(comment, ["_id", "username", "description", "createdAt", "isPosted"]));
 });
 
 module.exports = router;

@@ -4,12 +4,7 @@ Joi.objectId = require('joi-objectid')(Joi);
 
 // Schema to add comments on post
 const commentSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
-    },
-    userName: {
+    username: {
         type: String,
         required: true
     },
@@ -32,10 +27,9 @@ const Comment = mongoose.model('Comment', commentSchema);
 
 function validateComment(comment) {
     const schema = Joi.object({
-        userId: Joi.objectId().required(),
-        userName: Joi.string().required(),
+        username: Joi.string().required(),
         description: Joi.string().required(),
-        createdAt: Joi.date().default(() => new Date(), 'time of creation'),
+        createdAt: Joi.date().default(() => new Date()),
         likes: Joi.number().integer().min(0).default(0),
         isPosted: Joi.boolean()
   });
@@ -43,5 +37,5 @@ function validateComment(comment) {
 }
 
 exports.Comment = Comment;
-exports.validate = validateComment;
+exports.validateComment = validateComment;
 exports.commentSchema = commentSchema;
