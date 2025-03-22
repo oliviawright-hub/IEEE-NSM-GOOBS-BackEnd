@@ -1,6 +1,6 @@
 const { http } = require("http");
-const express = require("express"); //idk about this
-const app = express(); //idk about this
+// const express = require("express"); //idk about this
+// const app = express(); //idk about this
 const axios = require("axios");
 
 class Exercise {
@@ -60,11 +60,11 @@ function createWorkoutPlan(allExercises, level, equipment, primaryMuscles) {
   return selectedExercises;
 }
 
-app.get("/exercises", async (req, res) => {
+/*app.get("/exercises", async (req, res) => {
   const data = await getResponse();
   const exercises = parseResponse(data);
   res.json(exercises);
-});
+});*/
 
 module.exports = {
   getResponse,
