@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
+const auth = require("../auth");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
@@ -29,6 +30,13 @@ router.post("/", async (req, res) => {
 
   res.status(204);
 });
+
+router.get('/me', auth, async (req, res) => {
+    const user = await User.findById(req.user._id).select('-password');
+    if (!user) return res.status(400).send('User not found.');
+    res.send(user);
+});
+
 
 function validate(req) {
   const schema = Joi.object({
