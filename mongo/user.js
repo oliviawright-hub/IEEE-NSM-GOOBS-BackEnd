@@ -1,6 +1,8 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
+// potentially move progress and weight schemas
+
 const progressSchema = new mongoose.Schema({
     date: Date,
     workouts: [{
