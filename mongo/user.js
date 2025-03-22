@@ -2,7 +2,6 @@ const Joi = require('joi');
 const mongoose = require('mongoose');
 
 // potentially move progress and weight schemas
-
 const progressSchema = new mongoose.Schema({
     date: Date,
     workouts: [{
@@ -78,8 +77,6 @@ function validateUser(user) {
 
     return schema.validate(user, { abortEarly: false });
 }
-
-async 
 
 exports.User = User;
 exports.validate = validateUser;
