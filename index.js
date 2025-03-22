@@ -1,4 +1,6 @@
 const express = require("express");
+const { User, validate } = require('./mongo/user');
+const mongoose = require('mongoose');
 const exercisesAPI = require("./src/workout_api.js");
 const cors = require("cors");
 
@@ -8,6 +10,13 @@ app.use(express.json());
 app.use(cors());
 
 const port = process.env.PORT || 3001;
+
+mongoose.connect('mongodb://localhost:27017/Social') // need to switch to come from a config file
+    .then(() => {
+        console.log('Connected to MongoDB');
+    }) // better to use debug module for this
+    .catch(err => console.error('Could not connect to MongoDB...', err))
+
 
 app.post("/registeruser", async (req, res) => {
   const { error } = validate(req.body);
