@@ -2,6 +2,7 @@ const config = require('config');
 const express = require("express");
 const mongoose = require('mongoose');
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const exercisesAPI = require("./src/workout_api.js");
 
@@ -26,6 +27,7 @@ mongoose.connect('mongodb://localhost:27017/Social') // need to switch to come f
 app.use(express.json());
 
 app.use(cors());
+app.use(cookieParser());
 app.use('/api/users', users);
 app.use('/api/auth', auth);
 app.use('/api/post', post);
