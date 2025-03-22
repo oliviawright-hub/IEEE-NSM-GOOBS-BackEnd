@@ -37,7 +37,7 @@ function validatePost(post) {
       description: Joi.string().required(),
       createdAt: Joi.date().default(() => new Date(), 'Posted at'),
       likes: Joi.number().integer().min(0).default(0),
-      comments: Joi.array().items(Joi.object({ // Ensuring each comment in the array is valid
+      comments: Joi.array().items(Joi.object({ 
         userName: Joi.string().required(),
         description: Joi.string().required(),
         createdAt: Joi.date().default(() => new Date(), 'Posted at'),
