@@ -1,14 +1,14 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
-class Progress {
-    constructor(date, workoutList, weightForEachWorkout, repsForEachWorkout) {
-      this.date = date;
-      this.workoutList = workoutList;
-      this.weightForEachWorkout = weightForEachWorkout;
-      this.repsForEachWorkout = repsForEachWorkout;
-    }
-}
+const progressSchema = new mongoose.Schema({
+    date: Date,
+    workouts: [{
+        exerciseName: String,
+        weight: Number,
+        reps: Number
+    }]
+});
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -42,7 +42,8 @@ const userSchema = new mongoose.Schema({
     maxPr: {
         type: Map,
         of: Number
-    }
+    },
+    progress : [progressSchema]
     // Exercise names as keys and max personal records as values
     // posts objectd
     // progress object to track progress with date
@@ -62,6 +63,8 @@ function validateUser(user) {
 
     return schema.validate(user, { abortEarly: false });
 }
+
+async 
 
 exports.User = User;
 exports.validate = validateUser;
