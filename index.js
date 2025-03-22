@@ -21,14 +21,15 @@ app.get("/exercises", async (req, res) => {
 app.get("/workout", async (req, res) => {
   try {
     const { level, equipment, primaryMuscles } = req.query;
-    let primaryMusclesArray = primaryMuscles ? primaryMuscles.split(",") : undefined;
+    console.log("level: " + level, " equipment: " + equipment + " primaryMuscles: " + primaryMuscles);
+    let primaryMusclesArray = [primaryMuscles];
 
-    const data = await getResponse();
-    const exercises = parseResponse(data);
-    const workoutPlan = createWorkoutPlan(exercises, level, equipment, primaryMusclesArray);
-    res.json(workoutPlan);
+    const data = await exercisesAPI.getResponse();
+    const exercises = exercisesAPI.parseResponse(data);
+    const workoutPlan = exercisesAPI.createWorkoutPlan(exercises, level, equipment, primaryMusclesArray);
+    res.send(workoutPlan);
   } catch (error) {
-    res.status(500).send("Failed to create workout plan.");
+    res.status(500).send("Failed to create workout plan: " + error);
   }
 });
 

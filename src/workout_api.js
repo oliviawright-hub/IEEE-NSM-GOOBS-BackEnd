@@ -21,12 +21,8 @@ function randomInt(min, max) {
 function getResponse() {
   const url =
     "https://lite.datasette.io/?json=https://github.com/yuhonas/free-exercise-db/blob/main/dist/exercises.json#/data/exercises?_facet_array=primaryMuscles&_facet=force&_facet=level&_facet=equipment";
-  return axios
-    .get(url)
-    .then((response) => response.data)
-    .catch((error) => console.error("Error fetching data:", error));
+  return axios.get(url);
 }
-
 // parseResponse expects the response from getResponse
 function parseResponse(response) {
   return response.map((exercise) => new Exercise(exercise.name, exercise.level, exercise.equipment, exercise.primaryMuscles, exercise.instructions));
