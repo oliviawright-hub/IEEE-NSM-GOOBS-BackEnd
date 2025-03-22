@@ -1,26 +1,30 @@
 const express = require("express");
 const exercisesAPI = require("./src/workout_api.js");
 const app = express();
-const mongoose = require('mongoose');
-
-mongoose.connect('mongodb://localhost/playground') // need to switch to come from a config file
- .then(() => console.log('Connected to MongoDB')) // better to use debug module for this
- .catch(err => console.error('Could not connect to MongoDB...', err))
-
-const userSchema = new mongoose.Schema({
-  name: String,
-  username: String,
-  password: String,
-  email: String,
-  weight: int,
-  // per exercise map of string to numbers maxPr: int
-  // posts objectd
-  // progress object to track progress with date
-});
 
 app.use(express.json());
 
 const port = process.env.PORT || 3001;
+
+app.post("/registeruser", async (req, res) => {
+  const { error } = validate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  let user = await User.findOne({ email: req.body.email })
+  if (user) return res.status(400).send('User already registered.');
+
+  user = new User({
+      name: req.body.name,
+      username: req.body.username,
+      password: req.body.password,
+      email: req.body.email,
+      weight: req.body.weight,
+  });
+
+  await user.save();
+
+  res.send(user);
+});
 
 app.get("/exercises", async (req, res) => {
   const dataPromise = exercisesAPI.getResponse();
