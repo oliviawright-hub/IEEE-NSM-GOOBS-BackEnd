@@ -1,6 +1,22 @@
 const express = require("express");
 const exercisesAPI = require("./src/workout_api.js");
 const app = express();
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/playground') // need to switch to come from a config file
+ .then(() => console.log('Connected to MongoDB')) // better to use debug module for this
+ .catch(err => console.error('Could not connect to MongoDB...', err))
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  username: String,
+  password: String,
+  email: String,
+  weight: int,
+  // per exercise map of string to numbers maxPr: int
+  // posts objectd
+  // progress object to track progress with date
+});
 
 app.use(express.json());
 
