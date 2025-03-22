@@ -18,9 +18,13 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "joi": "^17.13.3",
+<<<<<<< Updated upstream
     "joi-objectid": "^4.0.2",
+=======
+>>>>>>> Stashed changes
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
+    "mongod": "^2.0.0",
     "mongoose": "^8.12.2"
   },
   "devDependencies": {
