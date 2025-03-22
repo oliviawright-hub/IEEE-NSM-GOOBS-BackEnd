@@ -19,6 +19,10 @@ const postSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  likes:{
+    type: Number,
+    default: 0
+  },
   isPosted: Boolean
 });
 
@@ -30,6 +34,7 @@ function validatePost(post) {
     image: Joi.string().uri().allow('', null),
     description: Joi.string().required(),
     createdAt: Joi.date().default(() => new Date(), 'time of creation'),
+    likes: Joi.number().integer().min(0).default(0),
     isPosted: Joi.boolean()
   });
     return schema.validate(post, { abortEarly: false });
