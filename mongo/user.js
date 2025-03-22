@@ -1,18 +1,27 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
+class Progress {
+    constructor(date, workoutList, weightForEachWorkout, repsForEachWorkout) {
+      this.date = date;
+      this.workoutList = workoutList;
+      this.weightForEachWorkout = weightForEachWorkout;
+      this.repsForEachWorkout = repsForEachWorkout;
+    }
+}
+
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
         minlength: 5,
-        malength: 50
+        maxlength: 50
     },
     username: {
         type: String,
         required: true,
         minlength: 5,
-        malength: 50
+        maxlength: 50
     },
     email: {
         type: String,
@@ -25,7 +34,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 5,
-        malength: 1024
+        maxlength: 1024
     },
     weight: {
         type: Number, 
