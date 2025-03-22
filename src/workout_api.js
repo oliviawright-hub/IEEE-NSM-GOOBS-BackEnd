@@ -13,15 +13,17 @@ class Exercise {
   };
 }
 
+// returns response from API
 function getResponse() {
   const url =
-    "https://lite.datasette.io/?json=https://github.com/yuhonas/free-exercise-db/blob/main/dist/exercises.json#/data/exercises?_facet_array=primaryMuscles&_facet=force&_facet=level&_facet=equipment";
+    "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json";
   return axios
     .get(url)
     .then((response) => response.data)
     .catch((error) => console.error("Error fetching data:", error));
 }
 
+// parseResponse expects the response frorm getResponse
 function parseResponse(response) {
   return response.map((exercise) => new Exercise(
       exercise.name,
@@ -32,7 +34,7 @@ function parseResponse(response) {
     ));
 }
 
-// return exercises based on critera
+// return exercises based on array of exercises, level, equipment, and primaryMuscles
 function getExercises(allExercises, level, equipment, primaryMuscles) {
   const matchingExercises = allExercises.filter(exercise => {
     return (!level || exercise.level === level) &&
