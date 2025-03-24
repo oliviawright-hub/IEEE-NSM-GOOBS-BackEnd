@@ -1,37 +1,38 @@
-const config = require('config');
+const config = require("config");
 const express = require("express");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 const exercisesAPI = require("./src/workout_api.js");
 
-const users = require('./mongo/routers/users');
-const auth = require('./mongo/routers/auth');
-const post = require('./mongo/routers/posts');
-const comment = require('./mongo/routers/comments');
+const users = require("./mongo/routers/users");
+const auth = require("./mongo/routers/auth");
+const post = require("./mongo/routers/posts");
+const comment = require("./mongo/routers/comments");
 
 const app = express();
 
-if (!config.get('jwtPrivateKey')) {
-    console.error('FATAL ERROR: jwtPrivateKey is not defined.');
-    process.exit(1);
+if (!config.get("jwtPrivateKey")) {
+  console.error("FATAL ERROR: jwtPrivateKey is not defined.");
+  process.exit(1);
 }
 
-mongoose.connect('mongodb://localhost:27017/Social') // need to switch to come from a config file
-    .then(() => {
-        console.log('Connected to MongoDB');
-    }) // better to use debug module for this
-    .catch(err => console.error('Could not connect to MongoDB...', err))
+mongoose
+  .connect("mongodb://127.0.0.1:27017/Social") // need to switch to come from a config file
+  .then(() => {
+    console.log("Connected to MongoDB");
+  }) // better to use debug module for this
+  .catch((err) => console.error("Could not connect to MongoDB...", err));
 
 app.use(express.json());
 
 app.use(cors());
 app.use(cookieParser());
-app.use('/api/users', users);
-app.use('/api/auth', auth);
-app.use('/api/post', post);
-app.use('/api/comment', comment);
+app.use("/api/users", users);
+app.use("/api/auth", auth);
+app.use("/api/post", post);
+app.use("/api/comment", comment);
 
 const port = process.env.PORT || 3001;
 
