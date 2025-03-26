@@ -25,9 +25,6 @@ mongoose
   }) // better to use debug module for this
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 
-app.use(express.json());
-
-app.use(cors());
 app.use(cookieParser());
 app.use("/api/users", users);
 app.use("/api/auth", auth);
@@ -36,7 +33,7 @@ app.use("/api/comment", comment);
 
 const port = process.env.PORT || 3001;
 
-app.get("/exercises", async (req, res) => {
+app.get("/exercises", cors(), async (req, res) => {
   const { level, equipment, primaryMuscles } = req.query;
   const dataPromise = exercisesAPI.getResponse();
   dataPromise
@@ -50,7 +47,7 @@ app.get("/exercises", async (req, res) => {
     .catch((error) => console.error("Error fetching data:", error));
 });
 
-app.get("/workout", async (req, res) => {
+app.get("/workout", cors(), async (req, res) => {
   try {
     const { level, equipment, primaryMuscles } = req.query;
     console.log("level: " + level, " equipment: " + equipment + " primaryMuscles: " + primaryMuscles);
